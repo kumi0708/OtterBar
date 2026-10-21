@@ -23,6 +23,7 @@ import Logging
 public enum NoticeEvent {
     case launchApp
     case screenView(name: String)
+    case petStateChanged(PetState)
 
     public var message: Logger.Message {
         switch self {
@@ -30,6 +31,8 @@ public enum NoticeEvent {
             "launch_app"
         case .screenView:
             "screen_view"
+        case .petStateChanged:
+            "pet_state_changed"
         }
     }
 
@@ -39,6 +42,8 @@ public enum NoticeEvent {
             [:]
         case let .screenView(name):
             ["screen": .string(name)]
+        case let .petStateChanged(state):
+            ["state": .string(state.rawValue)]
         }
     }
 }

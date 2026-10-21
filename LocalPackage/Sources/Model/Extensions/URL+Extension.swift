@@ -22,7 +22,7 @@ import Foundation
 
 extension URL {
     public static let github = URL(
-        string: "https://github.com/runcat-dev/RunCatNeo"
+        string: "https://github.com/kumi0708/OtterBar"
     )!
 
     public static var githubIssues: URL {
@@ -35,17 +35,5 @@ extension URL {
 
     public static let runnerGallery = URL(
         string: "https://runcat-dev.github.io/RunnerGallery/"
-    )!
-
-    public static let termsOfService = URL(
-        string: "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/"
-    )!
-
-    public static let privacyPolicy = URL(
-        string: "https://runcat-dev.github.io/RunCatNeo/privacy_policy.html"
-    )!
-
-    public static let manageSubscriptions = URL(
-        string: "itms-apps://apps.apple.com/account/subscriptions"
     )!
 }

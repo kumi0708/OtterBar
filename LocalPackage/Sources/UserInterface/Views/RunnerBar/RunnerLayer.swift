@@ -42,9 +42,11 @@ final class RunnerLayer: CALayer {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func setFrames(_ frames: [NSImage], _ isTemplate: Bool) {
+    func setFrames(_ frames: [NSImage], _ isTemplate: Bool, repeats: Bool) {
         let size = frames.first?.alignmentRect.size ?? .zero
         keyFrameAnimation.values = frames
+        keyFrameAnimation.repeatCount = repeats ? .infinity : 1
+        keyFrameAnimation.fillMode = repeats ? .removed : .forwards
         keyFrameAnimation.duration = Double(frames.count) / 2.0
         CATransaction.begin()
         CATransaction.setDisableActions(true)

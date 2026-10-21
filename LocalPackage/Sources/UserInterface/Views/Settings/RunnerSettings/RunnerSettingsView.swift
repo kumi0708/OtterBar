@@ -42,6 +42,7 @@ struct RunnerSettingsView: View {
             } header: {
                 Text("appearance", bundle: .module)
             }
+            PetSettingsSectionView(store: store.petSettings)
             CustomRunnerSettingsSectionView(store: store.customRunnerSettings)
         }
         .formStyle(.grouped)

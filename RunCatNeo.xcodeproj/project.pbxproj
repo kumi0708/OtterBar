@@ -7,13 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1C0CC4252FAA2AC7006AA17B /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C0CC4242FAA2AC7006AA17B /* StoreKit.framework */; };
 		1C0CC4382FAA37D9006AA17B /* UnitTest.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = 1C0CC4372FAA37D9006AA17B /* UnitTest.xctestplan */; };
 		1C9FF54C2F17FBEE00362D48 /* UserInterface in Frameworks */ = {isa = PBXBuildFile; productRef = 1C9FF54B2F17FBEE00362D48 /* UserInterface */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		1C0CC4242FAA2AC7006AA17B /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		1C0CC4372FAA37D9006AA17B /* UnitTest.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = UnitTest.xctestplan; sourceTree = "<group>"; };
 		1C9FF5312F17E9A800362D48 /* RunCatNeo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RunCatNeo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C9FF5492F17FBD000362D48 /* LocalPackage */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = LocalPackage; sourceTree = "<group>"; };
@@ -45,7 +43,6 @@
 			isa = PBXFrameworksBuildPhase;
 			files = (
 				1C9FF54C2F17FBEE00362D48 /* UserInterface in Frameworks */,
-				1C0CC4252FAA2AC7006AA17B /* StoreKit.framework in Frameworks */,
 			);
 		};
 /* End PBXFrameworksBuildPhase section */
@@ -73,7 +70,6 @@
 		1C9FF54A2F17FBEE00362D48 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				1C0CC4242FAA2AC7006AA17B /* StoreKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -317,7 +313,7 @@
 				ENABLE_USER_SELECTED_FILES = readwrite;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = RunCatNeo/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "RunCat Neo";
+				INFOPLIST_KEY_CFBundleDisplayName = OtterBar;
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_LSUIElement = YES;
@@ -328,8 +324,8 @@
 					"@executable_path/../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.kyome.Neo.RunCat;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = local.otterbar.OtterBar;
+				PRODUCT_NAME = OtterBar;
 				REGISTER_APP_GROUPS = YES;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
@@ -366,7 +362,7 @@
 				ENABLE_USER_SELECTED_FILES = readwrite;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = RunCatNeo/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "RunCat Neo";
+				INFOPLIST_KEY_CFBundleDisplayName = OtterBar;
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_LSUIElement = YES;
@@ -377,8 +373,8 @@
 					"@executable_path/../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.kyome.Neo.RunCat;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = local.otterbar.OtterBar;
+				PRODUCT_NAME = OtterBar;
 				REGISTER_APP_GROUPS = YES;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;

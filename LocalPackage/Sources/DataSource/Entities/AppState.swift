@@ -23,7 +23,6 @@ import Foundation
 public struct AppState: Sendable {
     public var name: String
     public var version: String
-    public var subscriptionGroupID: String
     public var hasAlreadyBootstrap: Bool
     public var metrics = AsyncStreamBundle<Metrics>()
     public var systemMetricsConfigurationChanges = AsyncStreamBundle<Void>()
@@ -33,16 +32,15 @@ public struct AppState: Sendable {
     public var runnerBundleLists = AsyncStreamBundle<[RunnerBundle]>()
     public var runnerBundles = AsyncStreamBundle<RunnerBundle>()
     public var runnerSpeeds = AsyncStreamBundle<Float>()
+    public var petStates = AsyncStreamBundle<PetState>()
 
     init(
         name: String = "",
         version: String = "",
-        subscriptionGroupID: String = "",
         hasAlreadyBootstrap: Bool = false
     ) {
         self.name = name
         self.version = version
-        self.subscriptionGroupID = subscriptionGroupID
         self.hasAlreadyBootstrap = hasAlreadyBootstrap
     }
 }

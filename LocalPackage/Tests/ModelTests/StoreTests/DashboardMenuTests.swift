@@ -154,7 +154,7 @@ struct DashboardMenuTests {
         ))
         await sut.send(.reportIssueButtonTapped)
         #expect(callStack.withLock(\.self) == [
-            "open: https://github.com/runcat-dev/RunCatNeo/issues",
+            "open: https://github.com/kumi0708/OtterBar/issues",
         ])
     }
 

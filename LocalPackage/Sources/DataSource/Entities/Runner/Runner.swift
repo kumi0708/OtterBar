@@ -54,7 +54,16 @@ public struct Runner: Sendable, Hashable, Identifiable {
         }
     }
 
-    public static let `default` = Runner(kind: .cat)
+    public var isPet: Bool {
+        if case .builtIn(.otter) = source { true } else { false }
+    }
+
+    public func resourceNames(for petState: PetState) -> [String] {
+        guard petState != .play else { return resourceNames() }
+        return (.zero ..< petState.numberOfFrames).map { "\(id)-\(petState.rawValue)-frame-\($0)" }
+    }
+
+    public static let `default` = Runner(kind: .otter)
 
     public static func ==(lhs: Runner, rhs: Runner) -> Bool {
         lhs.id == rhs.id

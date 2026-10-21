@@ -75,7 +75,7 @@ struct RunnerBarView: View {
                 .init(
                     getBundleImage: { NSImage(resource: .init(name: $0, bundle: .module)) },
                     setSize: { backgroundLayer.setSize($0) },
-                    setFrames: { runnerLayer.setFrames($0, $1) },
+                    setFrames: { runnerLayer.setFrames($0, $1, repeats: $2) },
                     setColor: { runnerLayer.setColor($0, $1) },
                     setSpeed: { runnerLayer.setSpeed($0) }
                 )

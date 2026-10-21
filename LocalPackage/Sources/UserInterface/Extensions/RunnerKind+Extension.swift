@@ -23,6 +23,8 @@ import DataSource
 extension RunnerKind {
     var localizedName: String {
         switch self {
+        case .otter:
+            String(localized: "otter", table: "RunnerNames", bundle: .module)
         case .cat:
             String(localized: "cat", table: "RunnerNames", bundle: .module)
         case .dog:

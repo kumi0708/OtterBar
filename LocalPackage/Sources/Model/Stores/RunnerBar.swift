@@ -31,6 +31,10 @@ public final class RunnerBar: Composable {
     @ObservationIgnored private var eventBridge: Action.EventBridge?
     @ObservationIgnored private var tintColor = CGColor.black
     @ObservationIgnored private var task: Task<Void, Never>?
+    @ObservationIgnored private var runnerBundle: RunnerBundle?
+    @ObservationIgnored private var petState = PetState.play
+    @ObservationIgnored private var runnerSpeed: Float?
+    @ObservationIgnored private var appliedSpeed: Float?
 
     public var icon: NSImage?
     public var size: CGSize
@@ -82,6 +86,12 @@ public final class RunnerBar: Composable {
                             self?.update(runnerSpeed: value)
                         }
                     }
+                    group.addImmediateTask {
+                        let stream = appStateClient.withLock(\.petStates.stream)
+                        for await value in stream {
+                            self?.update(petState: value)
+                        }
+                    }
                 }
             }
 
@@ -98,11 +108,68 @@ public final class RunnerBar: Composable {
         eventBridge?.setColor(tintColor, isTemplate)
     }
 
+    private var activePetState: PetState {
+        runnerBundle?.runner.isPet == true ? petState : .play
+    }
+
     private func update(runnerBundle: RunnerBundle) {
         guard case let .keyFrameAnimation(frames) = runnerBundle.displayFormat else {
             return
         }
-        let images = frames.compactMap { frame in
+        self.runnerBundle = runnerBundle
+        let images = loadImages(of: frames)
+        let isFlippedHorizontally = userDefaultsRepository.isFlippedHorizontally
+        icon = images.first?.plane
+        icon?.flip(enabled: isFlippedHorizontally)
+        icon?.normalize()
+        size = icon?.size ?? .zero
+        eventBridge?.setSize(size)
+        isTemplate = runnerBundle.runner.isTemplate
+        eventBridge?.setColor(tintColor, isTemplate)
+        if activePetState == .play {
+            eventBridge?.setFrames(prepare(images), isTemplate, true)
+            applySpeed()
+        } else {
+            applyPetAnimation()
+        }
+    }
+
+    private func update(runnerSpeed: Float) {
+        self.runnerSpeed = runnerSpeed
+        applySpeed()
+    }
+
+    private func update(petState: PetState) {
+        let previousState = activePetState
+        self.petState = petState
+        guard previousState != activePetState || activePetState.isOneShot else { return }
+        applyPetAnimation()
+    }
+
+    private func applyPetAnimation() {
+        guard let runner = runnerBundle?.runner else { return }
+        let state = activePetState
+        let frames = runner.resourceNames(for: state).map(Frame.preset)
+        eventBridge?.setFrames(prepare(loadImages(of: frames)), isTemplate, state.playback.repeats)
+        applySpeed()
+    }
+
+    private func applySpeed() {
+        let state = activePetState
+        let speed: Float? = if let fixedSpeed = state.playback.fixedSpeed {
+            fixedSpeed
+        } else if let runnerSpeed {
+            runnerBundle?.runner.isPet == true ? state.speed(forRunnerSpeed: runnerSpeed) : runnerSpeed
+        } else {
+            nil
+        }
+        guard let speed, speed != appliedSpeed else { return }
+        appliedSpeed = speed
+        eventBridge?.setSpeed(speed)
+    }
+
+    private func loadImages(of frames: [Frame]) -> [NSImage] {
+        frames.compactMap { frame in
             switch frame {
             case let .preset(resourceName):
                 eventBridge?.getBundleImage(resourceName)
@@ -112,25 +179,16 @@ public final class RunnerBar: Composable {
                 nil
             }
         }
+    }
+
+    private func prepare(_ images: [NSImage]) -> [NSImage] {
         let isFlippedHorizontally = userDefaultsRepository.isFlippedHorizontally
-        icon = images.first?.plane
-        icon?.flip(enabled: isFlippedHorizontally)
-        icon?.normalize()
-        size = icon?.size ?? .zero
-        eventBridge?.setSize(size)
-        isTemplate = runnerBundle.runner.isTemplate
-        eventBridge?.setColor(tintColor, isTemplate)
-        let imageFrames = images.map { image in
+        return images.map { image in
             image.flip(enabled: isFlippedHorizontally)
             image.normalize()
             image.isTemplate = isTemplate
             return image
         }
-        eventBridge?.setFrames(imageFrames, isTemplate)
-    }
-
-    private func update(runnerSpeed: Float) {
-        eventBridge?.setSpeed(runnerSpeed)
     }
 
     public enum Action: Sendable {
@@ -140,14 +198,14 @@ public final class RunnerBar: Composable {
         public struct EventBridge: Sendable {
             public let getBundleImage: @MainActor @Sendable (String) -> NSImage
             public var setSize: @MainActor @Sendable (CGSize) -> Void
-            public var setFrames: @MainActor @Sendable ([NSImage], Bool) -> Void
+            public var setFrames: @MainActor @Sendable ([NSImage], Bool, Bool) -> Void
             public var setColor: @MainActor @Sendable (CGColor, Bool) -> Void
             public var setSpeed: @MainActor @Sendable (Float) -> Void
 
             public init(
                 getBundleImage: @escaping @MainActor @Sendable (String) -> NSImage,
                 setSize: @escaping @MainActor @Sendable (CGSize) -> Void,
-                setFrames: @escaping @MainActor @Sendable ([NSImage], Bool) -> Void,
+                setFrames: @escaping @MainActor @Sendable ([NSImage], Bool, Bool) -> Void,
                 setColor: @escaping @MainActor @Sendable (CGColor, Bool) -> Void,
                 setSpeed: @escaping @MainActor @Sendable (Float) -> Void
             ) {

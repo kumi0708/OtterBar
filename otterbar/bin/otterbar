@@ -1,0 +1,42 @@
+#!/bin/bash
+# OtterBar にイベントを送る小さなCLI。アプリへは Darwin 通知（notifyutil）で届く。
+#   otterbar build start|success|fail
+#   otterbar agent start|done
+#   otterbar wrap -- <command...>   コマンドの終了コードで成功/失敗を送る
+set -u
+
+post() { /usr/bin/notifyutil -p "com.otterbar.$1"; }
+
+usage() {
+    sed -n '2,5p' "$0" | sed 's/^# \{0,1\}//'
+    exit 64
+}
+
+case "${1:-}" in
+    build)
+        case "${2:-}" in
+            start) post build.started ;;
+            success | succeeded) post build.succeeded ;;
+            fail | failed) post build.failed ;;
+            *) usage ;;
+        esac
+        ;;
+    agent)
+        case "${2:-}" in
+            start) post agent.started ;;
+            done | finish | finished) post agent.finished ;;
+            *) usage ;;
+        esac
+        ;;
+    wrap)
+        shift
+        [ "${1:-}" = "--" ] && shift
+        [ $# -gt 0 ] || usage
+        post build.started
+        "$@"
+        status=$?
+        if [ $status -eq 0 ]; then post build.succeeded; else post build.failed; fi
+        exit $status
+        ;;
+    *) usage ;;
+esac

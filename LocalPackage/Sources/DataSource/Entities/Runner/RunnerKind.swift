@@ -19,6 +19,7 @@
  */
 
 public enum RunnerKind: String, Sendable, Identifiable, CaseIterable {
+    case otter = "otter"
     case cat = "cat"
     case dog = "dog"
     case slime = "slime"
@@ -32,6 +33,7 @@ public enum RunnerKind: String, Sendable, Identifiable, CaseIterable {
 
     var numberOfResources: Int {
         switch self {
+        case .otter: PetState.play.numberOfFrames
         case .cat: 5
         case .dog: 5
         case .slime: 5
@@ -46,6 +48,7 @@ public enum RunnerKind: String, Sendable, Identifiable, CaseIterable {
     var frameOrder: FrameOrder {
         let n = numberOfResources
         return switch self {
+        case .otter: .ascending(n)
         case .cat: .ascending(n)
         case .dog: .ascending(n)
         case .slime: .partyHorn

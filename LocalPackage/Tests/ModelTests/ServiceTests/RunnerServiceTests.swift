@@ -22,7 +22,7 @@ struct RunnerServiceTests {
         ))
         try sut.update(runner: Runner(kind: .cat))
         let expected = RunnerBundle(
-            runner: .default,
+            runner: Runner(kind: .cat),
             frames: [
                 .preset("cat-frame-0"),
                 .preset("cat-frame-1"),
@@ -72,7 +72,7 @@ struct RunnerServiceTests {
         sut.loadRunnerBundleList()
         let bundleList = appState.withLock(\.runnerBundleLists.latestValue)
         #expect(bundleList?.count == RunnerKind.allCases.count)
-        #expect(bundleList?.first == RunnerBundle(runner: .default, frame: .preset("cat-frame-0")))
+        #expect(bundleList?.first == RunnerBundle(runner: .default, frame: .preset("otter-frame-0")))
     }
 
     @Test

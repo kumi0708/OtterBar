@@ -23,10 +23,12 @@ import SwiftUI
 
 public struct AppDependencies: Sendable {
     public var appStateClient = AppStateClient.liveValue
+    public var darwinNotificationClient = DarwinNotificationClient.liveValue
     public var dataClient = DataClient.liveValue
     public var dateClient = DateClient.liveValue
     public var fileManagerClient = FileManagerClient.liveValue
     public var fileWatcherClient = FileWatcherClient.liveValue
+    public var idleTimeClient = IdleTimeClient.liveValue
     public var loggingSystemClient = LoggingSystemClient.liveValue
     public var nsAppClient = NSAppClient.liveValue
     public var nsWorkspaceClient = NSWorkspaceClient.liveValue
@@ -46,10 +48,12 @@ extension EnvironmentValues {
 extension AppDependencies {
     public static func testDependencies(
         appStateClient: AppStateClient = .testValue,
+        darwinNotificationClient: DarwinNotificationClient = .testValue,
         dataClient: DataClient = .testValue,
         dateClient: DateClient = .testValue,
         fileManagerClient: FileManagerClient = .testValue,
         fileWatcherClient: FileWatcherClient = .testValue,
+        idleTimeClient: IdleTimeClient = .testValue,
         loggingSystemClient: LoggingSystemClient = .testValue,
         nsAppClient: NSAppClient = .testValue,
         nsWorkspaceClient: NSWorkspaceClient = .testValue,
@@ -61,10 +65,12 @@ extension AppDependencies {
     ) -> AppDependencies {
         AppDependencies(
             appStateClient: appStateClient,
+            darwinNotificationClient: darwinNotificationClient,
             dataClient: dataClient,
             dateClient: dateClient,
             fileManagerClient: fileManagerClient,
             fileWatcherClient: fileWatcherClient,
+            idleTimeClient: idleTimeClient,
             loggingSystemClient: loggingSystemClient,
             nsAppClient: nsAppClient,
             nsWorkspaceClient: nsWorkspaceClient,

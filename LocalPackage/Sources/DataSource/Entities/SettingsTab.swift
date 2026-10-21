@@ -22,5 +22,4 @@ public enum SettingsTab {
     case general
     case runner
     case metrics
-    case donation
 }

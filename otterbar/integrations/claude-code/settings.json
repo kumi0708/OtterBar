@@ -1,0 +1,18 @@
+{
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          { "type": "command", "command": "/usr/bin/notifyutil -p com.otterbar.agent.started" }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          { "type": "command", "command": "/usr/bin/notifyutil -p com.otterbar.agent.finished" }
+        ]
+      }
+    ]
+  }
+}

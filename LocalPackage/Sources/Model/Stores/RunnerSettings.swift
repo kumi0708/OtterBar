@@ -30,6 +30,7 @@ public final class RunnerSettings: Composable {
 
     public var speedDecreasesUnderLoad: Bool
     public var isFlippedHorizontally: Bool
+    public let petSettings: PetSettings
     public let customRunnerSettings: CustomRunnerSettings
     public let action: (Action) async -> Void
 
@@ -37,6 +38,7 @@ public final class RunnerSettings: Composable {
         _ appDependencies: AppDependencies,
         speedDecreasesUnderLoad: Bool? = nil,
         isFlippedHorizontally: Bool? = nil,
+        petSettings: PetSettings? = nil,
         customRunnerSettings: CustomRunnerSettings? = nil,
         action: @escaping (Action) async -> Void = { _ in }
     ) {
@@ -47,6 +49,8 @@ public final class RunnerSettings: Composable {
         self.speedDecreasesUnderLoad = speedDecreasesUnderLoad ?? userDefaultsRepository.speedDecreasesUnderLoad
         self.isFlippedHorizontally = isFlippedHorizontally ?? userDefaultsRepository.isFlippedHorizontally
         weak var weakSelf: RunnerSettings? = nil
+        self.petSettings = petSettings ??
+            .init(appDependencies, action: { await weakSelf?.send(.petSettings($0)) })
         self.customRunnerSettings = customRunnerSettings ??
             .init(appDependencies, action: { await weakSelf?.send(.customRunnerSettings($0)) })
         self.action = action
@@ -69,6 +73,9 @@ public final class RunnerSettings: Composable {
             userDefaultsRepository.isFlippedHorizontally = isOn
             runnerService.resendCurrentRunnerBundle()
 
+        case .petSettings:
+            return
+
         case .customRunnerSettings:
             return
         }
@@ -78,6 +85,7 @@ public final class RunnerSettings: Composable {
         case viewAppeared(String)
         case slowDownUnderLoadToggleSwitched(Bool)
         case flipHorizontallyToggleSwitched(Bool)
+        case petSettings(PetSettings.Action)
         case customRunnerSettings(CustomRunnerSettings.Action)
     }
 }

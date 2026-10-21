@@ -13,3 +13,8 @@ xcuserdata/
 # Test
 DerivedData/
 TestResults/
+
+# OtterBar
+otterbar/.build/
+otterbar/dist/
+otterbar/frames/

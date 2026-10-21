@@ -24,7 +24,7 @@ public struct UserDefaultsRepository: Sendable {
     private var userDefaultsClient: UserDefaultsClient
 
     public var runnerID: Runner.ID {
-        get { userDefaultsClient.string(.runnerID) ?? RunnerKind.cat.id }
+        get { userDefaultsClient.string(.runnerID) ?? Runner.default.id }
         nonmutating set { userDefaultsClient.set(newValue, .runnerID) }
     }
 
@@ -36,6 +36,26 @@ public struct UserDefaultsRepository: Sendable {
     public var isFlippedHorizontally: Bool {
         get { userDefaultsClient.bool(.isFlippedHorizontally) }
         nonmutating set { userDefaultsClient.set(newValue, .isFlippedHorizontally) }
+    }
+
+    public var petReactsToIdle: Bool {
+        get { userDefaultsClient.bool(.petReactsToIdle) }
+        nonmutating set { userDefaultsClient.set(newValue, .petReactsToIdle) }
+    }
+
+    public var petReactsToEvents: Bool {
+        get { userDefaultsClient.bool(.petReactsToEvents) }
+        nonmutating set { userDefaultsClient.set(newValue, .petReactsToEvents) }
+    }
+
+    public var petRandomActs: Bool {
+        get { userDefaultsClient.bool(.petRandomActs) }
+        nonmutating set { userDefaultsClient.set(newValue, .petRandomActs) }
+    }
+
+    public var petIdleMinutes: Int {
+        get { max(1, userDefaultsClient.integer(.petIdleMinutes)) }
+        nonmutating set { userDefaultsClient.set(newValue, .petIdleMinutes) }
     }
 
     public var updateInterval: UpdateInterval {
@@ -105,10 +125,14 @@ public struct UserDefaultsRepository: Sendable {
             userDefaultsClient.removePersistentDomain(Bundle.main.bundleIdentifier!)
         }
         userDefaultsClient.register([
-            .runnerID: RunnerKind.cat.id,
+            .runnerID: Runner.default.id,
             .speedDecreasesUnderLoad: false,
             .isFlippedHorizontally: false,
             .updateInterval: UpdateInterval.default.rawValue,
+            .petReactsToIdle: true,
+            .petReactsToEvents: true,
+            .petRandomActs: true,
+            .petIdleMinutes: 5,
         ])
         if ProcessInfo.needsShowAllData {
             showAllData()

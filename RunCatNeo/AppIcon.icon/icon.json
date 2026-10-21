@@ -38,13 +38,13 @@
           ],
           "glass" : false,
           "hidden" : false,
-          "image-name" : "cat.png",
-          "name" : "cat",
+          "image-name" : "otter.png",
+          "name" : "otter",
           "position" : {
-            "scale" : 1.2,
+            "scale" : 0.95,
             "translation-in-points" : [
-              -595.390625,
-              179.828125
+              10,
+              -100
             ]
           }
         }
